@@ -57,8 +57,8 @@
                         <input id="First-class-count" class="inp-style inp-width" type="number" name="" value="0">
                     </div>
                     <div class="plus-minus-btn">
-                        <button id="First-class-decrease" class="btn btn-danger"> - </button>
-                        <button id="First-class-increase" class="btn btn-success"> + </button>
+                        <button onclick="flightHandler('First-class', false)" class="btn btn-danger"> - </button>
+                        <button onclick="flightHandler('First-class', true)" class="btn btn-success"> + </button>
                     </div>
                 </div>
 
@@ -68,8 +68,8 @@
                         <input id="Economy-class-count" class="inp-style inp-width" type="number" name="" value="0">
                     </div>
                     <div class="plus-minus-btn">
-                        <button id="Economy-class-decrease" class="btn btn-danger"> - </button>
-                        <button id="Economy-class-increase" class="btn btn-success"> + </button>
+                        <button onclick="flightHandler('Economy-class', false)" class="btn btn-danger"> - </button>
+                        <button onclick="flightHandler('Economy-class', true)" class="btn btn-success"> + </button>
                     </div>
                 </div>
                 <div class="calculations">
@@ -132,27 +132,27 @@
                 </tr>
                 <tr>
                     <td>First Class</td>
-                    <td><p id="booking-firstclass-quantity">0</p></td>
+                    <td id="booking-first-class">0</td>
                     <td>$150</td>
-                    <td>$00</td>
+                    <td id="calculated-first-class-price">$00</td>
                 </tr>
                 <tr>
                     <td>Economy Class</td>
-                    <td>0</td>
+                    <td id="booking-economy-class">0</td>
                     <td>$100</td>
-                    <td>$00</td>
+                    <td id="calculated-economy-class-price">$00</td>
                 </tr>
                 <tr>
                     <td colspan="3">Subtotal</td>
-                    <td>$00</td>
+                    <td id="booking-subtotal">$00</td>
                 </tr>
                 <tr>
                     <td colspan="3">Tax (10%)</td>
-                    <td>$00</td>
+                    <td id="booking-tax">$00</td>
                 </tr>
                 <tr>
                     <td colspan="3">Total</td>
-                    <td>$00</td>
+                    <td id="booking-total">$00</td>
                 </tr>
             </table>
             <div class="text-center">
@@ -164,60 +164,26 @@
     </section>
 
     <script>
-        // first class handler....
-        document.getElementById("First-class-increase").addEventListener("click", function () {
-            firstClassHandler(true);
-        })
-        document.getElementById("First-class-decrease").addEventListener("click", function () {
-            firstClassHandler(false);
-
-        })
-        function firstClassHandler(isIncrease) {
-            const firstClassValue = document.getElementById("First-class-count");
-            const firstClassCount = parseInt(firstClassValue.value);
-            let newFirstClassCount = firstClassCount;
+        // flight-count-handler
+        function flightHandler(flight, isIncrease) {
+            const flightValue = document.getElementById(flight + "-count");
+            const flightCount = parseInt(flightValue.value);
+            let newFlightCount = flightCount;
             if (isIncrease == true) {
-                newFirstClassCount = firstClassCount + 1;
+                newFlightCount = flightCount + 1;
             }
-            if (isIncrease == false && firstClassCount > 0) {
-                newFirstClassCount = firstClassCount - 1;
+            if (isIncrease == false && flightCount > 0) {
+                newFlightCount = flightCount - 1;
             }
-            firstClassValue.value = newFirstClassCount;
+            flightValue.value = newFlightCount;
             calculateTotal();
-
-        }
-
-        // Economy class handler
-        document.getElementById("Economy-class-increase").addEventListener("click", function () {
-            economyClassHandler(true);
-        })
-        document.getElementById("Economy-class-decrease").addEventListener("click", function () {
-            economyClassHandler(false);
-        })
-        function economyClassHandler(isIncrease) {
-            const economyClassValue = document.getElementById("Economy-class-count");
-            const economyClassCount = parseInt(economyClassValue.value);
-            let newEconomyClassCount = economyClassCount;
-            if (isIncrease == true) {
-                newEconomyClassCount = economyClassCount + 1;
-            }
-            if (isIncrease == false && economyClassCount > 0) {
-                newEconomyClassCount = economyClassCount - 1;
-            }
-            economyClassValue.value = newEconomyClassCount;
-            calculateTotal();
-
-
         }
 
 
+        // calculation against flight count
         function calculateTotal() {
-
-            const firstClassValue = document.getElementById("First-class-count");
-            const firstClassCount = parseInt(firstClassValue.value);
-
-            const economyClassValue = document.getElementById("Economy-class-count");
-            const economyClassCount = parseInt(economyClassValue.value);
+            let firstClassCount = getFlightValue("First-class");
+            let economyClassCount = getFlightValue("Economy-class");
 
             const subTotalFare = firstClassCount * 150 + economyClassCount * 100;
             document.getElementById("subtotal-fare").innerText = '$' + subTotalFare;
@@ -229,38 +195,46 @@
             document.getElementById("total-fare").innerText = '$' + totalFare;
 
         }
-
-        // // Book now button handler
-        // document.getElementById("booking-information").addEventListener("click", function () {
-        //     const bookingSectionArea = document.getElementById('booking-section-area');
-        //     bookingSectionArea.style.display = "none";
-        //     const bookingConfirmationArea = document.getElementById('booking-confirmation-area');
-        //     bookingConfirmationArea.style.display = "block";
-
-        //     const firstClassValue = document.getElementById("First-class-count");
-        //     const firstClassCount = parseInt(firstClassValue.value);
-
-        //     const economyClassValue = document.getElementById("Economy-class-count");
-        //     const economyClassCount = parseInt(economyClassValue.value);
-
-        //     if(firstClassCount > 0 && economyClassCount > 0){
-                
-        //     }
-        //     else{
-        //         window.alert("Please fill up the First Class and Economy Class Area");
-        //     }
-
-        //     const firstCassVlue = document.getElementById("booking-firstclass-quantity");
-        //     const firstCassCunt = parseInt(firstCassVlue.value);
-        //     console.log(firstCassCunt);
+        function getFlightValue(flight) {
+            const flightValue = document.getElementById(flight + "-count");
+            const flightCount = parseInt(flightValue.value);
+            return flightCount;
+        }
 
 
+        // Book now button handler
+        document.getElementById("booking-information").addEventListener("click", function () {
+            var firstClassCount = getFlightValue("First-class");
+            var economyClassCount = getFlightValue("Economy-class");
 
-        //     // document.getElementById("booking-firstclass-quantity").innerText = firstClassCount;
-        //     // calculateTotal();
+            const subTotalFare = firstClassCount * 150 + economyClassCount * 100;
+            const taxOfFare = subTotalFare * 0.1;
+            const totalFare = subTotalFare + taxOfFare;
 
+            let calculatedFirstClassPrice = firstClassCount * 150;
+            let calculatedEconomyPrice = economyClassCount * 100;
+            
+            if (firstClassCount > 0 || economyClassCount > 0) {
+                const bookingSectionArea = document.getElementById('booking-section-area');
+                bookingSectionArea.style.display = "none";
+                const bookingConfirmationArea = document.getElementById('booking-confirmation-area');
+                bookingConfirmationArea.style.display = "block";
 
-        // })
+                document.getElementById("booking-first-class").innerText = firstClassCount;
+                document.getElementById("booking-economy-class").innerText = economyClassCount;
+
+                document.getElementById("calculated-first-class-price").innerText = '$' + calculatedFirstClassPrice;
+                document.getElementById("calculated-economy-class-price").innerText = '$' + calculatedEconomyPrice;
+
+                document.getElementById("booking-subtotal").innerText = '$' + subTotalFare;
+                document.getElementById("booking-tax").innerText = '$' + taxOfFare;
+                document.getElementById("booking-total").innerText = '$' + totalFare;
+
+            }
+            else {
+                window.alert("Please fill up the First Class and Economy Class Area");
+            }
+        })
 
 
 
