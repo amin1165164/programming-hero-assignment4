@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Booking</title>
+    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- Fonts -->
@@ -35,7 +36,7 @@
                 <h3>Booking Flights</h3>
                 <div class="input-group">
                     <label for="">Flying From</label>
-                    <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                    <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh">
                 </div>
                 <div class="input-group">
                     <label for="">Flying To</label>
@@ -54,7 +55,7 @@
                 <div class="input-group f-class">
                     <div>
                         <label for="">First Class ($150)</label>
-                        <input id="First-class-count" class="inp-style inp-width" type="number" name="" value="0">
+                        <input id="First-class-count" class="inp-style inp-width" type="text" name="" value="0">
                     </div>
                     <div class="plus-minus-btn">
                         <button onclick="flightHandler('First-class', false)" class="btn btn-danger"> - </button>
@@ -65,7 +66,7 @@
                 <div class="input-group f-class">
                     <div>
                         <label for="">Economy ($100)</label>
-                        <input id="Economy-class-count" class="inp-style inp-width" type="number" name="" value="0">
+                        <input id="Economy-class-count" class="inp-style inp-width" type="text" name="" value="0">
                     </div>
                     <div class="plus-minus-btn">
                         <button onclick="flightHandler('Economy-class', false)" class="btn btn-danger"> - </button>
@@ -123,7 +124,7 @@
             <p>Departure Date: <span>............</span></p>
             <p>Returning Date: <span>............</span></p>
 
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="border-width:3px; border-color:black">
                 <tr>
                     <th>Type</th>
                     <th>Quantity</th>
@@ -156,7 +157,7 @@
                 </tr>
             </table>
             <div class="text-center">
-                <button class="btn btn-success content-center">Download pdf</button>
+                <button id="download-pdf" class="btn btn-success content-center">Download pdf</button>
             </div>
 
         </div>
@@ -213,7 +214,7 @@
 
             let calculatedFirstClassPrice = firstClassCount * 150;
             let calculatedEconomyPrice = economyClassCount * 100;
-            
+
             if (firstClassCount > 0 || economyClassCount > 0) {
                 const bookingSectionArea = document.getElementById('booking-section-area');
                 bookingSectionArea.style.display = "none";
@@ -230,18 +231,20 @@
                 document.getElementById("booking-tax").innerText = '$' + taxOfFare;
                 document.getElementById("booking-total").innerText = '$' + totalFare;
 
+                window.alert("Your booking is confirmed.")
+
             }
             else {
-                window.alert("Please fill up the First Class and Economy Class Area");
+                window.alert("Please fill up the First Class or Economy Class Area");
             }
         })
 
 
-
-
+        // pdf button handler
+        document.getElementById("download-pdf").addEventListener("click", function () {
+            window.alert("This action is under working. Thank you for your convenience.")
+        })
     </script>
-
-
     <!--Thank You-->
 </body>
 
